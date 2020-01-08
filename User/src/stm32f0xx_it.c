@@ -32,6 +32,7 @@
 #include <cobra_common.h>
 #include <cobra_console.h>
 #include <mod_power.h>
+#include <mod_pair.h>
 
 /** @addtogroup Template_Project
   * @{
@@ -172,7 +173,10 @@ void EXTI4_15_IRQHandler(void)
 	if(EXTI_GetITStatus(KEY_POWER_EXTI_LINE) != RESET) {
 		EXTI_ClearITPendingBit(KEY_POWER_EXTI_LINE);
 		gl_mod_power.key_power_touch();
-
+	}
+	if(EXTI_GetITStatus(KEY_PAIR_EXTI_LINE) != RESET) {
+		EXTI_ClearITPendingBit(KEY_PAIR_EXTI_LINE);
+		gl_mod_pair.key_pair_touch();
 	}
 }
 #endif

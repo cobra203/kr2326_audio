@@ -2413,6 +2413,9 @@
                 <name>$PROJ_DIR$\User\src\main.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\User\src\mod_pair.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\User\src\mod_power.c</name>
             </file>
             <file>

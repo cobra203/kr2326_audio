@@ -24,6 +24,7 @@
 #define LOG_SYS_LEVEL		LOG_LEVEL_INFO
 #define LOG_BUTTON_LEVEL	LOG_LEVEL_NOT
 #define LOG_POWER_LEVEL		LOG_LEVEL_INFO
+#define LOG_PAIR_LEVEL		LOG_LEVEL_INFO
 /* ========================================================*/
 
 #define PRINTF_REDIRCT_EN
@@ -33,7 +34,7 @@
 #define CONSOLE_EVENT_MAX	2
 
 #if CBA_PLATFORM == PLATFORM_STM32
-#define CONSOLE_UART_COM	USART2
+#define CONSOLE_UART_COM	UART_PORT(CONSOLE_UART_PORTx)
 #define CONSOLE_UART_BAUD	115200
 #endif
 
@@ -47,9 +48,11 @@
 #define CONSOLE_RX_PS		GPIO_PS(CONSOLE_RX_PINx)
 #define CONSOLE_RX_AF		GPIO_AF(CONSOLE_RX_AFx)
 
+#define CONSOLE_RX_IRQ		UART_IRQ(CONSOLE_UART_PORTx)
+
 typedef struct console_event_s
 {
-	uint8_t		touch;
+	uint8_t		commit;
 	EVENT_S		event;
 	char		cmdline[_CMDLINE_MAX_SIZE_];
 } CONSOLE_EVENT_S;
