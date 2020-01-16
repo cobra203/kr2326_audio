@@ -2413,10 +2413,16 @@
                 <name>$PROJ_DIR$\User\src\main.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\User\src\mod_audio.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\User\src\mod_pair.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\User\src\mod_power.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\User\src\mod_wireless.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\User\src\stm32f0xx_it.c</name>
@@ -2441,6 +2447,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\Driver\StdPeriph_Driver\src\stm32f0xx_gpio.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\Driver\StdPeriph_Driver\src\stm32f0xx_iwdg.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\Driver\StdPeriph_Driver\src\stm32f0xx_misc.c</name>

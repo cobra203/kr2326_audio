@@ -152,6 +152,12 @@ void console_init_early(void)
 	GPIO_Init(CONSOLE_RX_PORT, &gpio_cfg);
 
 	/* 2. Configuration USART interface */
+	/* Enable USART2 Clock */
+#ifdef STM32F303xE
+	RCC_USARTCLKConfig(RCC_USART2CLK_SYSCLK);
+#endif
+	RCC_ClockCmd(CONSOLE_RCC_APB, ENABLE);
+
 	usart_cfg.USART_BaudRate = CONSOLE_UART_BAUD;
 	usart_cfg.USART_WordLength = USART_WordLength_8b;
 	usart_cfg.USART_StopBits = USART_StopBits_1;

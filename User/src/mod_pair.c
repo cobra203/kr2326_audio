@@ -70,11 +70,13 @@ static void _mod_pair_clean_pre(void)
 		PAIR_LOG(INFO, "event EV_PAIR_CLEAN is busy\n");
 	}
 }
+
 static void _mod_pair_key_process(BUTTON_S *button)
 {
 	if(button->state.active) {
 		switch(button->state.effective) {
 		case ECT_LOOSE:
+		case ECT_UNOCCUPIED:
 			break;
 		case ECT_PRESSED:
 			if(CBA_FALSE == gl_mod_pair.sys_status->power->enable) {
@@ -82,7 +84,7 @@ static void _mod_pair_key_process(BUTTON_S *button)
 			}
 			break;
 		case ECT_FOCUSED:
-			if(button->cont_count == 10) {
+			if(button->focused_count == 10) {
 				_mod_pair_clean_pre();
 			}
 			break;
@@ -147,6 +149,7 @@ void mod_pair_init(COBRA_SYS_S *sys)
 	gl_mod_pair.key_pair.interval.dithering		= 3;
 	gl_mod_pair.key_pair.interval.long_press	= 100;
 	gl_mod_pair.key_pair.interval.continuous	= 100;
+	gl_mod_pair.key_pair.interval.unoccupied	= 100;
 
     gpio_cfg.GPIO_Mode   = GPIO_Mode_IN;
     gpio_cfg.GPIO_PuPd   = GPIO_PuPd_NOPULL;//GPIO_PuPd_UP;

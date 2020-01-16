@@ -152,10 +152,10 @@ void cmd_register(CMD_S *cmd)
 {
 	list_add_tail(&cmd->list, &cmd_head.list);
 	if(strlen(cmd->subcmd)) {
-		CMD_LOG(INFO, "register: [%s_%s]\n", cmd->prefix, cmd->subcmd);
+		CMD_LOG(INFO, "cmd_register: [%s_%s]\n", cmd->prefix, cmd->subcmd);
 	}
 	else {
-		CMD_LOG(INFO, "register: [%s]\n", cmd->prefix);
+		CMD_LOG(INFO, "cmd_register: [%s]\n", cmd->prefix);
 	}
 }
 

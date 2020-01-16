@@ -33,6 +33,7 @@
 #include <cobra_console.h>
 #include <mod_power.h>
 #include <mod_pair.h>
+#include <mod_wireless.h>
 
 /** @addtogroup Template_Project
   * @{
@@ -115,14 +116,14 @@ void SysTick_Handler(void)
 {
 }*/
 
-void USART2_IRQHandler(void)
+void USART_IRQHandler(void)
 {
 	char byte;
 
     if(USART_GetITStatus(CONSOLE_UART_COM, USART_IT_RXNE)) {
 		byte = USART_ReceiveData(CONSOLE_UART_COM);
 
-		if(byte == '\r') {
+		if(byte == 13) {
 			console_send_byte('\n');
 			console_puts(CONSOLE_TAG);
 			gl_console.cmdline[gl_console.cmdline_size] = 0;
@@ -161,8 +162,9 @@ void EXTI15_10_IRQHandler(void)
 {
 	if(EXTI_GetITStatus(KEY_POWER_EXTI_LINE) != RESET) {
 		EXTI_ClearITPendingBit(KEY_POWER_EXTI_LINE);
-		gl_mod_power.key_power_touch();
-
+		if(gl_sys.mod_power) {
+			gl_mod_power.key_power_touch();
+		}
 	}
 }
 #endif
@@ -172,11 +174,21 @@ void EXTI4_15_IRQHandler(void)
 {
 	if(EXTI_GetITStatus(KEY_POWER_EXTI_LINE) != RESET) {
 		EXTI_ClearITPendingBit(KEY_POWER_EXTI_LINE);
-		gl_mod_power.key_power_touch();
+		if(gl_sys.mod_power) {
+			gl_mod_power.key_power_touch();
+		}
 	}
 	if(EXTI_GetITStatus(KEY_PAIR_EXTI_LINE) != RESET) {
 		EXTI_ClearITPendingBit(KEY_PAIR_EXTI_LINE);
-		gl_mod_pair.key_pair_touch();
+		if(gl_sys.mod_pair) {
+			gl_mod_pair.key_pair_touch();
+		}
+	}
+	if(EXTI_GetITStatus(LED_STAT_EXTI_LINE) != RESET) {
+		EXTI_ClearITPendingBit(LED_STAT_EXTI_LINE);
+		if(gl_sys.mod_wireless) {
+			gl_mod_wireless.led_stat_touch();
+		}
 	}
 }
 #endif

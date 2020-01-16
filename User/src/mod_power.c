@@ -63,13 +63,16 @@ static void _mod_power_key_power_process(BUTTON_S *button)
 
 		switch(button->state.effective) {
 		case ECT_LOOSE:
-			if(button->cont_count < 3) {
+			if(button->focused_count < 3) {
 				updata = CBA_TRUE;
 			}
+			break;
+		case ECT_UNOCCUPIED:
+			break;
 		case ECT_PRESSED:
 			break;
 		case ECT_FOCUSED:
-			if(button->cont_count == 3) {
+			if(button->focused_count == 3) {
 				updata = CBA_TRUE;
 			}
 			break;
@@ -145,6 +148,7 @@ void mod_power_init(COBRA_SYS_S *sys)
 	gl_mod_power.key_power.interval.dithering	= 3;
 	gl_mod_power.key_power.interval.long_press  = 100;
 	gl_mod_power.key_power.interval.continuous  = 100;
+	gl_mod_power.key_power.interval.unoccupied	= 100;
 
     gpio_cfg.GPIO_Mode   = GPIO_Mode_IN;
     gpio_cfg.GPIO_PuPd   = GPIO_PuPd_NOPULL;//GPIO_PuPd_UP;

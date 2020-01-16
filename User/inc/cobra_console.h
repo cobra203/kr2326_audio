@@ -18,6 +18,7 @@
 
 /* ============= define console log of module =============*/
 #define LOG_CONSOLE_LEVEL	LOG_LEVEL_INFO
+#define LOG_MAIN_LEVEL		LOG_LEVEL_INFO
 #define LOG_CMD_LEVEL		LOG_LEVEL_INFO
 #define LOG_TIMER_LEVEL		LOG_LEVEL_INFO
 #define LOG_EVENT_LEVEL		LOG_LEVEL_INFO
@@ -25,6 +26,8 @@
 #define LOG_BUTTON_LEVEL	LOG_LEVEL_NOT
 #define LOG_POWER_LEVEL		LOG_LEVEL_INFO
 #define LOG_PAIR_LEVEL		LOG_LEVEL_INFO
+#define LOG_AUDIO_LEVEL		LOG_LEVEL_INFO
+#define LOG_WIRELESS_LEVEL	LOG_LEVEL_INFO
 /* ========================================================*/
 
 #define PRINTF_REDIRCT_EN
@@ -49,6 +52,10 @@
 #define CONSOLE_RX_AF		GPIO_AF(CONSOLE_RX_AFx)
 
 #define CONSOLE_RX_IRQ		UART_IRQ(CONSOLE_UART_PORTx)
+#define USART_IRQHandler	UASRT_IRQ_HANDLER(CONSOLE_UART_PORTx)
+
+#define CONSOLE_RCC_APB		UART_RCC(CONSOLE_UART_APB, CONSOLE_UART_PORTx)
+#define RCC_ClockCmd		RCC_CLOCKCMD(CONSOLE_UART_APB)
 
 typedef struct console_event_s
 {
