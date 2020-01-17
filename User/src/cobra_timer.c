@@ -61,7 +61,7 @@ static void _timer_touch_process(TIMER_TASK_S *task)
 	void *cb_data = task->cb_data;
 
 	if(task->info.type == TMR_ONCE) {
-		TIMER_LOG(DEBUG, "task_touch[%d] : %s\n", task->info.type, task->name);
+		TIMER_LOG(DEBUG, "task_touch[%d] : %s\r\n", task->info.type, task->name);
 	}
 
 	switch(task->info.type) {
@@ -106,11 +106,11 @@ static void timer_task_dump(void *cmd)
 	TIMER_TASK_S *pos;
 	int i = 0;
 
-	TIMER_LOG(INFO, "============================================================\n");
+	TIMER_LOG(INFO, "============================================================\r\n");
 	list_for_each_entry(pos, &timer_task_head.list, TIMER_TASK_S, list) {
-		TIMER_LOG(INFO, "task_list[%02d]: [0x%08x][%d] %s\n", i++, &(pos->list), pos->info.type, pos->name);
+		TIMER_LOG(INFO, "task_list[%02d]: [0x%08x][%d] %s\r\n", i++, &(pos->list), pos->info.type, pos->name);
 	}
-	TIMER_LOG(INFO, "============================================================\n");
+	TIMER_LOG(INFO, "============================================================\r\n");
 }
 CMD_CREATE(timer, task_dump, timer_task_dump);
 
@@ -128,7 +128,7 @@ void timer_task_create(TIMER_TASK_S *task, TASK_TYPE_E type,
 	timer_head_lock = 0;
 
 	if(type != TMR_DELAY) {
-		TIMER_LOG(DEBUG, "task_create[%d]: %s\n", type, task->name);
+		TIMER_LOG(DEBUG, "task_create[%d]: %s\r\n", type, task->name);
 	}
 
 	task->info.active = CBA_TRUE;
@@ -144,7 +144,7 @@ CBA_BOOL timer_task_release(TIMER_TASK_S *task)
 		task->info.active = CBA_FALSE;
 
 		if(task->info.type != TMR_DELAY) {
-			TIMER_LOG(DEBUG, "task_release[%d]: %s\n", task->info.type, task->name);
+			TIMER_LOG(DEBUG, "task_release[%d]: %s\r\n", task->info.type, task->name);
 		}
 		return CBA_TRUE;
 	}
@@ -194,7 +194,7 @@ static void timer_iwdg_init(void)
 	IWDG_SetReload(650); //500ms
 	IWDG_ReloadCounter();
 	IWDG_Enable();
-	TIMER_LOG(INFO, "%s ... OK\n", __func__);
+	TIMER_LOG(INFO, "%s ... OK\r\n", __func__);
 #endif
 }
 
@@ -259,7 +259,7 @@ void timer_init(void) /* 1ms timer */
 
 	cmd_register(&cmd_timer_task_dump);
 
-	TIMER_LOG(INFO, "%s ... OK\n", __func__);
+	TIMER_LOG(INFO, "%s ... OK\r\n", __func__);
 }
 
 void timer_itc(int sig)

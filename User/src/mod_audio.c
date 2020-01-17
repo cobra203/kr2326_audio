@@ -76,11 +76,11 @@ static void _mod_audio_play(uint8_t id)
 	if(id < 0xe0) {
 		_mod_audio_play_single(id);
 		gl_mod_audio.status.last_play = id;
-		AUDIO_LOG(INFO, "play %d\n", id);
+		AUDIO_LOG(INFO, "play %d\r\n", id);
 	}
 	else if (0xe0 <= id && id <= 0xe7) {
 		gl_mod_audio.status.volume = id - 0xe0;
-		AUDIO_LOG(INFO, "volume set to %d\n", id - 0xe0);
+		AUDIO_LOG(INFO, "volume set to %d\r\n", id - 0xe0);
 	}
 }
 
@@ -95,7 +95,7 @@ static void _mod_audio_play_pre(uint8_t id)
 		event_commit(event, EV_AUDIO_PLAY, 3, EV_STATE_NORMAL, &play_id);
 	}
 	else {
-		AUDIO_LOG(INFO, "event EV_AUDIO_PLAY is busy\n");
+		AUDIO_LOG(INFO, "event EV_AUDIO_PLAY is busy\r\n");
 	}
 }
 
@@ -104,16 +104,16 @@ static void mod_audio_cmd(void *cmd)
 	CMD_S *pcmd = (CMD_S *)cmd;
 	uint32_t id = 0;
 
-	AUDIO_LOG(INFO, "============================================================\n");
+	AUDIO_LOG(INFO, "============================================================\r\n");
 	if(strlen(pcmd->arg) && (1 == sscanf(&pcmd->arg[0], "%d", &id))) {
 		_mod_audio_play_pre(id);
 	}
 	else {
-		AUDIO_LOG(INFO, "Invalid Arguments\n");
-		AUDIO_LOG(INFO, "Usage: audio [id]\n");
-		AUDIO_LOG(INFO, "The [id] use decimal format\n");
+		AUDIO_LOG(INFO, "Invalid Arguments\r\n");
+		AUDIO_LOG(INFO, "Usage: audio [id]\r\n");
+		AUDIO_LOG(INFO, "The [id] use decimal format\r\n");
 	}
-	AUDIO_LOG(INFO, "============================================================\n");
+	AUDIO_LOG(INFO, "============================================================\r\n");
 }
 CMD_CREATE_SIMPLE(audio, mod_audio_cmd);
 
@@ -153,5 +153,5 @@ void mod_audio_init(COBRA_SYS_S *sys)
 
 	cmd_register(&cmd_audio);
 
-	AUDIO_LOG(INFO, "%s ... OK\n", __func__);
+	AUDIO_LOG(INFO, "%s ... OK\r\n", __func__);
 }

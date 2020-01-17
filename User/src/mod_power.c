@@ -46,12 +46,12 @@ static void _mod_power_swtich(CBA_BOOL old_status)
 		if(CBA_FALSE == gl_mod_power.sys_status->pair->cleaning) {
 			gl_mod_power.status.enable = old_status ? 0 : 1;
 			_mod_power_ctrl(gl_mod_power.status.enable);
-			POWER_LOG(INFO, "power switch ->%d\n", gl_mod_power.status.enable);
+			POWER_LOG(INFO, "power switch ->%d\r\n", gl_mod_power.status.enable);
 		}
 		event_commit(event, EV_POWER_SWITCH, 3, EV_STATE_NORMAL, CBA_NULL);
 	}
 	else {
-		POWER_LOG(INFO, "event EV_POWER_SWITCH is busy\n");
+		POWER_LOG(INFO, "event EV_POWER_SWITCH is busy\r\n");
 	}
 }
 
@@ -111,9 +111,9 @@ static void mod_power_cmd(void *cmd)
 {
 	CMD_S *pcmd = (CMD_S *)cmd;
 
-	POWER_LOG(INFO, "============================================================\n");
+	POWER_LOG(INFO, "============================================================\r\n");
 	if(0 == strlen(pcmd->arg)) {
-		POWER_LOG(INFO, "power: %d\n", gl_mod_power.status.enable);
+		POWER_LOG(INFO, "power: %d\r\n", gl_mod_power.status.enable);
 	}
 	else if(strncmp("on", pcmd->arg, strlen("on")) == 0 ||
 		strncmp("1", pcmd->arg, strlen("1")) == 0) {
@@ -124,10 +124,10 @@ static void mod_power_cmd(void *cmd)
 		_mod_power_swtich(CBA_TRUE);
 	}
 	else {
-		POWER_LOG(INFO, "Invalid Arguments\n");
-		POWER_LOG(INFO, "Usage: power [on|1]|[off|0]\n");
+		POWER_LOG(INFO, "Invalid Arguments\r\n");
+		POWER_LOG(INFO, "Usage: power [on|1]|[off|0]\r\n");
 	}
-	POWER_LOG(INFO, "============================================================\n");
+	POWER_LOG(INFO, "============================================================\r\n");
 }
 CMD_CREATE_SIMPLE(power, mod_power_cmd);
 
@@ -145,7 +145,7 @@ void mod_power_init(COBRA_SYS_S *sys)
 	gl_mod_power.key_power_touch();
 
 	gl_mod_power.key_power.check_active 	 	= button_check_active;
-	gl_mod_power.key_power.interval.dithering	= 3;
+	gl_mod_power.key_power.interval.dithering	= 2;
 	gl_mod_power.key_power.interval.long_press  = 100;
 	gl_mod_power.key_power.interval.continuous  = 100;
 	gl_mod_power.key_power.interval.unoccupied	= 100;
@@ -181,6 +181,6 @@ void mod_power_init(COBRA_SYS_S *sys)
 
 	cmd_register(&cmd_power);
 
-	POWER_LOG(INFO, "%s ... OK\n", __func__);
+	POWER_LOG(INFO, "%s ... OK\r\n", __func__);
 }
 

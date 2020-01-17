@@ -73,7 +73,7 @@ int button_check_active(BUTTON_S *button)
 			interval = button->interval.unoccupied;
 			if(button->state.duration >= interval) {
 				button->loose_count++;
-				BUTTON_LOG(DEBUG, "active interval=%d [LOOSE]: loose_count=%d\n", interval, button->loose_count);
+				BUTTON_LOG(DEBUG, "active interval=%d [LOOSE]: loose_count=%d\r\n", interval, button->loose_count);
 				button->state.duration	= 0;
 				button->state.effective = ECT_UNOCCUPIED;
 				button->state.active	= 1;
@@ -92,7 +92,7 @@ int button_check_active(BUTTON_S *button)
             			button->interval.long_press : button->interval.continuous;
             if(button->state.duration >= interval) {
 				button->focused_count++;
-				BUTTON_LOG(DEBUG, "active interval=%d [FOCUSED]: focused_count=%d\n", interval, button->focused_count);
+				BUTTON_LOG(DEBUG, "active interval=%d [FOCUSED]: focused_count=%d\r\n", interval, button->focused_count);
                 button->state.duration  = 0;
                 button->state.effective = ECT_FOCUSED;
                 button->state.active    = 1;

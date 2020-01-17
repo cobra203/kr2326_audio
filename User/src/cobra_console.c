@@ -124,7 +124,7 @@ static void console_cmdline_touch(void)
 			return;
 		}
 	}
-	CONSOLE_LOG(INFO, "console event cache is full\n");
+	CONSOLE_LOG(INFO, "console event cache is full\r\n");
 }
 
 void console_init_early(void)
@@ -211,12 +211,12 @@ void console_init_early(void)
 	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
 
 #endif /* CBA_PLATFORM == PLATFORM_STM32 */
-	console_puts("\n+====================================================================+\n");
-	console_puts("| system  : cobra system template                                    |\n");
-	console_puts("| version : v0.1 - 19/12/16                                          |\n");
-	console_puts("| author  : sm723@qq.com                                             |\n");
-	console_puts("+====================================================================+\n");
-	CONSOLE_LOG(INFO, "%s ... OK\n", __func__);
+	console_puts("\n+====================================================================+\r\n");
+	console_puts("| system  : cobra system audio                                       |\r\n");
+	console_puts("| version : v1.0 - 20/01/17                                          |\r\n");
+	console_puts("| author  : sm723@qq.com                                             |\r\n");
+	console_puts("+====================================================================+\r\n");
+	CONSOLE_LOG(INFO, "%s ... OK\r\n", __func__);
 }
 
 static void _console_monitor_handle(void *arg)
@@ -238,6 +238,6 @@ void console_init(void)
 	gl_console.handle.cb_data = CBA_NULL;
 	timer_task_create(&gl_console.handle, TMR_CYCLICITY, 10, 100, _console_monitor_handle);
 
-	CONSOLE_LOG(INFO, "%s ... OK\n", __func__);
+	CONSOLE_LOG(INFO, "%s ... OK\r\n", __func__);
 }
 

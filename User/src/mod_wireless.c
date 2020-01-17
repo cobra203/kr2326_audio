@@ -58,11 +58,11 @@ static void _mod_wireless_event_commint(EVENT_S *event, uint8_t event_id, uint8_
 {
 	if(CBA_FALSE == event_is_active(event)) {
 		gl_mod_wireless.status.state = status_id;
-		WIRELESS_LOG(INFO, "%s %d\n", EV_WIRELESS_STATE == event_id ? "state" : "notice", status_id);
+		WIRELESS_LOG(INFO, "%s %d\r\n", EV_WIRELESS_STATE == event_id ? "state" : "notice", status_id);
 		event_commit(event, event_id, 3, EV_STATE_NORMAL, CBA_NULL);
 	}
 	else {
-		WIRELESS_LOG(INFO, "event %s is busy\n", EV_WIRELESS_STATE == event_id ? "EV_WIRELESS_STAT" : "EV_WIRELESS_NOTICE");
+		WIRELESS_LOG(INFO, "event %s is busy\r\n", EV_WIRELESS_STATE == event_id ? "EV_WIRELESS_STAT" : "EV_WIRELESS_NOTICE");
 	}
 }
 
@@ -132,33 +132,33 @@ static void _mod_wireless_stat_process(BUTTON_S *button)
 	if(button->state.active) {
 		switch(button->state.effective) {
 		case ECT_LOOSE:
-			WIRELESS_LOG(DEBUG, "led stat ECT_LOOSE\n");
-			WIRELESS_LOG(DEBUG, "loose_count[%d], focused_count[%d]\n", button->loose_count, button->focused_count);
+			WIRELESS_LOG(DEBUG, "led stat ECT_LOOSE\r\n");
+			WIRELESS_LOG(DEBUG, "loose_count[%d], focused_count[%d]\r\n", button->loose_count, button->focused_count);
 			_mod_wireless_led_ctrl(LED_STATUS_DARK);
 			break;
 		case ECT_UNOCCUPIED:
 			if(gl_mod_wireless.status.active) {
-				WIRELESS_LOG(DEBUG, "led stat ECT_UNOCCUPIED\n");
-				WIRELESS_LOG(DEBUG, "loose_count[%d], focused_count[%d]\n", button->loose_count, button->focused_count);
+				WIRELESS_LOG(DEBUG, "led stat ECT_UNOCCUPIED\r\n");
+				WIRELESS_LOG(DEBUG, "loose_count[%d], focused_count[%d]\r\n", button->loose_count, button->focused_count);
 				if(button->loose_count == 6) {
 					_mod_wireless_event_commint(&gl_mod_wireless.stat_event, EV_WIRELESS_STATE, STAT_POWER_SAVE);
 					_mod_wireless_led_ctrl(LED_STATUS_POWER_SAVE);
-					WIRELESS_LOG(INFO, "wireless into power save mode\n");
+					WIRELESS_LOG(INFO, "wireless into power save mode\r\n");
 				}
 			}
 			break;
 		case ECT_PRESSED:
-			WIRELESS_LOG(DEBUG, "led stat ECT_PRESSED\n");
-			WIRELESS_LOG(DEBUG, "loose_count[%d], focused_count[%d]\n", button->loose_count, button->focused_count);
+			WIRELESS_LOG(DEBUG, "led stat ECT_PRESSED\r\n");
+			WIRELESS_LOG(DEBUG, "loose_count[%d], focused_count[%d]\r\n", button->loose_count, button->focused_count);
 			_mod_wireless_led_ctrl(LED_STATUS_BRIGHT);
 			break;
 		case ECT_FOCUSED:
 			if(gl_mod_wireless.status.active) {
-				WIRELESS_LOG(DEBUG, "led stat ECT_FOCUSED\n");
-				WIRELESS_LOG(DEBUG, "loose_count[%d], focused_count[%d]\n", button->loose_count, button->focused_count);
+				WIRELESS_LOG(DEBUG, "led stat ECT_FOCUSED\r\n");
+				WIRELESS_LOG(DEBUG, "loose_count[%d], focused_count[%d]\r\n", button->loose_count, button->focused_count);
 				if(button->focused_count == 6) {
 					_mod_wireless_event_commint(&gl_mod_wireless.stat_event, EV_WIRELESS_STATE, STAT_CONNECTED);
-					WIRELESS_LOG(INFO, "wireless connect successful\n");
+					WIRELESS_LOG(INFO, "wireless connect successful\r\n");
 				}
 			}
 			break;
@@ -216,16 +216,16 @@ static void mod_wireless_notice(void *cmd)
 	CMD_S *pcmd = (CMD_S *)cmd;
 	uint32_t notice_id = 0;
 
-	WIRELESS_LOG(INFO, "============================================================\n");
+	WIRELESS_LOG(INFO, "============================================================\r\n");
 	if(strlen(pcmd->arg) && (1 == sscanf(&pcmd->arg[0], "%d", &notice_id))) {
 		_mod_wireless_event_commint(&gl_mod_wireless.notice_event, EV_WIRELESS_NOTICE, notice_id);
 	}
 	else {
-		WIRELESS_LOG(INFO, "Invalid Arguments\n");
-		WIRELESS_LOG(INFO, "Usage: wireless [notice_id]\n");
-		WIRELESS_LOG(INFO, "The [notice_id] use decimal format\n");
+		WIRELESS_LOG(INFO, "Invalid Arguments\r\n");
+		WIRELESS_LOG(INFO, "Usage: wireless [notice_id]\r\n");
+		WIRELESS_LOG(INFO, "The [notice_id] use decimal format\r\n");
 	}
-	WIRELESS_LOG(INFO, "============================================================\n");
+	WIRELESS_LOG(INFO, "============================================================\r\n");
 }
 CMD_CREATE_SIMPLE(wireless, mod_wireless_notice);
 
@@ -290,6 +290,6 @@ void mod_wireless_init(COBRA_SYS_S *sys)
 
 	cmd_register(&cmd_wireless);
 
-	WIRELESS_LOG(INFO, "%s ... OK\n", __func__);
+	WIRELESS_LOG(INFO, "%s ... OK\r\n", __func__);
 }
 

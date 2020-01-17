@@ -46,7 +46,7 @@ static void _mod_pair_clean_post(void *data)
 		_mod_pair_ctrl(CBA_FALSE);
 		gl_mod_pair.status.cleaning = CBA_FALSE;
 		event_commit(event, EV_PAIR_CLEAN, 3, EV_STATE_RESPONSE, CBA_NULL);
-		PAIR_LOG(INFO, "Pair clean ... OK\n");
+		PAIR_LOG(INFO, "Pair clean ... OK\r\n");
 	}
 }
 
@@ -60,14 +60,14 @@ static void _mod_pair_clean_pre(void)
 			gl_mod_pair.status.cleaning = CBA_TRUE;
 			timer_task_create(&gl_mod_pair.pair_clean_task, TMR_ONCE, 10000, 0, _mod_pair_clean_post);
 			event_commit(event, EV_PAIR_CLEAN, 3, EV_STATE_REQUEST, CBA_NULL);
-			PAIR_LOG(INFO, "Pair clean ...\n");
+			PAIR_LOG(INFO, "Pair clean ...\r\n");
 		}
 		else {
 			event_commit(event, EV_PAIR_CLEAN, 3, EV_STATE_NORMAL, CBA_NULL);
 		}
 	}
 	else {
-		PAIR_LOG(INFO, "event EV_PAIR_CLEAN is busy\n");
+		PAIR_LOG(INFO, "event EV_PAIR_CLEAN is busy\r\n");
 	}
 }
 
@@ -120,15 +120,15 @@ static void mod_pair_cmd(void *cmd)
 {
 	CMD_S *pcmd = (CMD_S *)cmd;
 
-	PAIR_LOG(INFO, "============================================================\n");
+	PAIR_LOG(INFO, "============================================================\r\n");
 	if(strncmp("clean", pcmd->arg, strlen("clean")) == 0) {
 		_mod_pair_clean_pre();
 	}
 	else {
-		PAIR_LOG(INFO, "Invalid Arguments\n");
-		PAIR_LOG(INFO, "Usage: pair [clean]\n");
+		PAIR_LOG(INFO, "Invalid Arguments\r\n");
+		PAIR_LOG(INFO, "Usage: pair [clean]\r\n");
 	}
-	PAIR_LOG(INFO, "============================================================\n");
+	PAIR_LOG(INFO, "============================================================\r\n");
 }
 CMD_CREATE_SIMPLE(pair, mod_pair_cmd);
 
@@ -146,7 +146,7 @@ void mod_pair_init(COBRA_SYS_S *sys)
 	gl_mod_pair.key_pair_touch();
 
 	gl_mod_pair.key_pair.check_active 	 		= button_check_active;
-	gl_mod_pair.key_pair.interval.dithering		= 3;
+	gl_mod_pair.key_pair.interval.dithering		= 2;
 	gl_mod_pair.key_pair.interval.long_press	= 100;
 	gl_mod_pair.key_pair.interval.continuous	= 100;
 	gl_mod_pair.key_pair.interval.unoccupied	= 100;
@@ -183,7 +183,7 @@ void mod_pair_init(COBRA_SYS_S *sys)
 
 	cmd_register(&cmd_pair);
 
-	PAIR_LOG(INFO, "%s ... OK\n", __func__);
+	PAIR_LOG(INFO, "%s ... OK\r\n", __func__);
 }
 
 

@@ -40,19 +40,19 @@ int	cobra_event_process(EVENT_S *event)
 	case EV_CON_CMD:
 		assert_param((char *)event->data);
 		if(CBA_SUCCESS != cmd_parse((char *)event->data, &parse)) {
-			SYS_LOG(INFO, "Format error\n");
+			SYS_LOG(INFO, "Format error\r\n");
 			break;
 		}
 		parse.status = event->status.state;
 		if(CBA_SUCCESS != cmd_process(&parse)) {
-			SYS_LOG(INFO, "Invalid command\n");
+			SYS_LOG(INFO, "Invalid command\r\n");
 		}
 		event->status.state = parse.status;
 		break;
 
 	case EV_POWER_SWITCH:
 		if(gl_sys.mod_pair && gl_sys.status.pair->cleaning) {
-			SYS_LOG(INFO, "ERROR: The device is pairing, please try again later\n");
+			SYS_LOG(INFO, "ERROR: The device is pairing, please try again later\r\n");
 			break;
 		}
 		if(gl_sys.mod_power) {
@@ -64,7 +64,7 @@ int	cobra_event_process(EVENT_S *event)
 					gl_sys.status.wireless->active = CBA_ENABLE;
 					gl_sys.mod_wireless->handle_start();
 				}
-				SYS_LOG(INFO, "Power On\n");
+				SYS_LOG(INFO, "Power On\r\n");
 			}
 			else {
 				if(gl_sys.mod_audio) {
@@ -74,7 +74,7 @@ int	cobra_event_process(EVENT_S *event)
 					gl_sys.status.wireless->active = CBA_DISABLE;
 					gl_sys.mod_wireless->handle_release();
 				}
-				SYS_LOG(INFO, "Power Off\n");
+				SYS_LOG(INFO, "Power Off\r\n");
 			}
 		}
 		break;
@@ -83,20 +83,20 @@ int	cobra_event_process(EVENT_S *event)
 		switch(event->status.state) {
 		case EV_STATE_NORMAL:
 			if(gl_sys.mod_power && CBA_FALSE == gl_sys.status.power->enable) {
-				SYS_LOG(INFO, "ERROR: The device is not power on\n");
+				SYS_LOG(INFO, "ERROR: The device is not power on\r\n");
 			}
 			break;
 		case EV_STATE_REQUEST:
 			if(gl_sys.mod_audio) {
 				gl_sys.mod_audio->play(AUDIO_PAIR_CLEANING);
 			}
-			SYS_LOG(INFO, "Pair clean start ...\n");
+			SYS_LOG(INFO, "Pair clean start ...\r\n");
 			break;
 		case EV_STATE_RESPONSE:
 			if(gl_sys.mod_audio) {
 				gl_sys.mod_audio->play(AUDIO_PAIR_CLEANED);
 			}
-			SYS_LOG(INFO, "Pair clean completed\n");
+			SYS_LOG(INFO, "Pair clean completed\r\n");
 			break;
 		default:
 			return 0;
@@ -104,7 +104,7 @@ int	cobra_event_process(EVENT_S *event)
 		break;
 
 	case EV_AUDIO_PLAY:
-		SYS_LOG(INFO, "Audio[%d] playing\n", *(uint8_t *)event->data);
+		SYS_LOG(INFO, "Audio[%d] playing\r\n", *(uint8_t *)event->data);
 		break;
 
 	case EV_WIRELESS_STATE:
@@ -124,13 +124,13 @@ int	cobra_event_process(EVENT_S *event)
 				break;
 			}
 
-			SYS_LOG(INFO, "Wireless state: state[%d]\n", gl_sys.status.wireless->state);
+			SYS_LOG(INFO, "Wireless state: state[%d]\r\n", gl_sys.status.wireless->state);
 			}
 		break;
 
 	case EV_WIRELESS_NOTICE:
 		if(gl_sys.mod_wireless) {
-			SYS_LOG(INFO, "Wireless notice: state[%d]\n", gl_sys.status.wireless->state);
+			SYS_LOG(INFO, "Wireless notice: state[%d]\r\n", gl_sys.status.wireless->state);
 		}
 		break;
 
@@ -178,52 +178,52 @@ static void cobra_sys_test(void *cmd)
 	if(EV_STATE_NORMAL == pcmd->status && strncmp("sleep", pcmd->arg, strlen("sleep")) == 0) {
 		sscanf(&pcmd->arg[sizeof("sleep")], "%d", &delay);
 		delay_ms(delay);
-		SYS_LOG(INFO, "test: work=%d\n", gl_sys.status.flag);
+		SYS_LOG(INFO, "test: work=%d\r\n", gl_sys.status.flag);
 		return;
 	}
 	if(0 != strlen(pcmd->arg)) {
-		SYS_LOG(INFO, "Invalid Arguments\n");
-		SYS_LOG(INFO, "Usage: sys_test [delay|sleep] [ms]\n");
+		SYS_LOG(INFO, "Invalid Arguments\r\n");
+		SYS_LOG(INFO, "Usage: sys_test [delay|sleep] [ms]\r\n");
 		return;
 	}
 
-	SYS_LOG(INFO, "============================================================\n");
+	SYS_LOG(INFO, "============================================================\r\n");
 	switch(pcmd->status) {
 	case EV_STATE_NORMAL:
-		SYS_LOG(INFO, "test: work=%d\n", gl_sys.status.flag);
+		SYS_LOG(INFO, "test: work=%d\r\n", gl_sys.status.flag);
 		break;
 	case EV_STATE_RESPONSE:
-		SYS_LOG(INFO, "test: work=%s\n", pcmd->arg);
+		SYS_LOG(INFO, "test: work=%s\r\n", pcmd->arg);
 		break;
 	default:
-		SYS_LOG(INFO, "%s_%s: timeout\n", pcmd->prefix, pcmd->subcmd);
+		SYS_LOG(INFO, "%s_%s: timeout\r\n", pcmd->prefix, pcmd->subcmd);
 		break;
 	}
-	SYS_LOG(INFO, "============================================================\n");
+	SYS_LOG(INFO, "============================================================\r\n");
 }
 CMD_CREATE(sys, test, cobra_sys_test);
 
 static void cobra_sys_status_dump(void)
 {
 #if 1
-	SYS_LOG(INFO, "============================================================\n");
+	SYS_LOG(INFO, "============================================================\r\n");
 	if(gl_sys.mod_power) {
-		SYS_LOG(INFO, "| power     | enable    : %d                                |\n",
+		SYS_LOG(INFO, "| power     | enable    : %d                                |\r\n",
 						gl_sys.status.power->enable);
 	}
 	if(gl_sys.mod_pair) {
-		SYS_LOG(INFO, "| pair      | cleaning  : %d                                |\n",
+		SYS_LOG(INFO, "| pair      | cleaning  : %d                                |\r\n",
 						gl_sys.status.pair->cleaning);
 	}
 	if(gl_sys.mod_audio) {
-		SYS_LOG(INFO, "| audio     | volume    : %d, last play : %-3d               |\n",
+		SYS_LOG(INFO, "| audio     | volume    : %d, last play : %-3d               |\r\n",
 						gl_sys.status.audio->volume, gl_sys.status.audio->last_play);
 	}
 	if(gl_sys.mod_wireless) {
-		SYS_LOG(INFO, "| wireless  | active    : %d, state     : %-3d               |\n",
+		SYS_LOG(INFO, "| wireless  | active    : %d, state     : %-3d               |\r\n",
 						gl_sys.status.wireless->active, gl_sys.status.wireless->state);
 	}
-	SYS_LOG(INFO, "============================================================\n");
+	SYS_LOG(INFO, "============================================================\r\n");
 #endif
 }
 
@@ -235,8 +235,8 @@ static void cobra_sys_status(void *cmd)
 		cobra_sys_status_dump();
 	}
 	else {
-		SYS_LOG(INFO, "Invalid Arguments\n");
-		SYS_LOG(INFO, "Usage: status\n");
+		SYS_LOG(INFO, "Invalid Arguments\r\n");
+		SYS_LOG(INFO, "Usage: status\r\n");
 	}
 }
 CMD_CREATE_SIMPLE(status, cobra_sys_status);
@@ -250,22 +250,22 @@ static uint8_t _cobra_parse_flag(uint8_t rcc_flag)
 static void _cobra_sys_resetflag_dump(void)
 {
 #if 1
-	SYS_LOG(INFO, "============================================================\n");
-	SYS_LOG(INFO, "| LPWRRST: %d | WWDGRST: %d | IWDGRST: %d |            |\n",
+	SYS_LOG(INFO, "============================================================\r\n");
+	SYS_LOG(INFO, "| LPWRRST: %d | WWDGRST: %d | IWDGRST: %d |            |\r\n",
 		_cobra_parse_flag(RCC_FLAG_LPWRRST), _cobra_parse_flag(RCC_FLAG_WWDGRST), _cobra_parse_flag(RCC_FLAG_IWDGRST));
-	SYS_LOG(INFO, "| SFTRST : %d | PORRST : %d | PINRST : %d | OBLRST : %d |\n",
+	SYS_LOG(INFO, "| SFTRST : %d | PORRST : %d | PINRST : %d | OBLRST : %d |\r\n",
 		_cobra_parse_flag(RCC_FLAG_SFTRST), _cobra_parse_flag(RCC_FLAG_PORRST),
 		_cobra_parse_flag(RCC_FLAG_PINRST), _cobra_parse_flag(RCC_FLAG_OBLRST));
-	SYS_LOG(INFO, "============================================================\n");
+	SYS_LOG(INFO, "============================================================\r\n");
 #endif
 #if 0
-	SYS_LOG(INFO, "============================================================\n");
-	SYS_LOG(INFO, "| LPWRRST: %d | WWDGRST: %d | IWDGRST: %d |            |\n",
+	SYS_LOG(INFO, "============================================================\r\n");
+	SYS_LOG(INFO, "| LPWRRST: %d | WWDGRST: %d | IWDGRST: %d |            |\r\n",
 		RCC_GetFlagStatus(RCC_FLAG_LPWRRST), RCC_GetFlagStatus(RCC_FLAG_WWDGRST), RCC_GetFlagStatus(RCC_FLAG_IWDGRST));
-	SYS_LOG(INFO, "| SFTRST : %d | PORRST : %d | PINRST : %d | OBLRST : %d |\n",
+	SYS_LOG(INFO, "| SFTRST : %d | PORRST : %d | PINRST : %d | OBLRST : %d |\r\n",
 		RCC_GetFlagStatus(RCC_FLAG_SFTRST), RCC_GetFlagStatus(RCC_FLAG_PORRST),
 		RCC_GetFlagStatus(RCC_FLAG_PINRST), RCC_GetFlagStatus(RCC_FLAG_OBLRST));
-	SYS_LOG(INFO, "============================================================\n");
+	SYS_LOG(INFO, "============================================================\r\n");
 #endif
 }
 
@@ -284,15 +284,15 @@ static void cobra_sys_resetflag(void *cmd)
 		_cobra_sys_resetflag_dump();
 	}
 	else {
-		SYS_LOG(INFO, "Invalid Arguments\n");
-		SYS_LOG(INFO, "Usage: flag\n");
+		SYS_LOG(INFO, "Invalid Arguments\r\n");
+		SYS_LOG(INFO, "Usage: flag\r\n");
 	}
 }
 CMD_CREATE_SIMPLE(flag, cobra_sys_resetflag);
 
 static void cobra_sys_reboot(void *cmd)
 {
-	console_puts("cobra system reboot ...\n");
+	console_puts("cobra system reboot ...\r\n");
 	NVIC_SystemReset();
 }
 CMD_CREATE_SIMPLE(reboot, cobra_sys_reboot);
@@ -302,7 +302,7 @@ static void cobra_sys_handle(void *args)
 	//static int times = 0;
 	//COBRA_SYS_S *sys = (COBRA_SYS_S *)args;
 
-	//SYS_LOG("%s:%d\n", __func__, times++);
+	//SYS_LOG("%s:%d\r\n", __func__, times++);
 	//delay_ms(5000);
 
 	//timer_task_create(&(sys->task), TMR_ONCE, 1000, 0, cobra_sys_handle, (void *)sys);
@@ -340,5 +340,5 @@ void cobra_sys_init(void)
 	mod_audio_init(&gl_sys);
 	mod_wireless_init(&gl_sys);
 
-	SYS_LOG(INFO, "%s ... OK\n", __func__);
+	SYS_LOG(INFO, "%s ... OK\r\n", __func__);
 }
