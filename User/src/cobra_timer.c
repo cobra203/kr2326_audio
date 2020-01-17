@@ -1,4 +1,5 @@
 #include <string.h>
+#include <string.h>
 #include <stdio.h>
 
 #include <cobra_timer.h>

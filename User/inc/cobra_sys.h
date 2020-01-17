@@ -34,7 +34,7 @@ typedef struct cobra_sys_s
 	struct timer_task_s		handle;
 	struct mod_power_s		*mod_power;
 	struct mod_pair_s		*mod_pair;
-	struct mod_audio_s		*mod_audio;
+	struct mod_audio_s		*mod_audio;
 	struct mod_wireless_s	*mod_wireless;
 
 	struct console_event_s	cmd_test_resp;

@@ -212,8 +212,8 @@ void console_init_early(void)
 
 #endif /* CBA_PLATFORM == PLATFORM_STM32 */
 	console_puts("\n+====================================================================+\r\n");
-	console_puts("| system  : cobra system audio                                       |\r\n");
-	console_puts("| version : v1.0 - 20/01/17                                          |\r\n");
+	console_puts("| system  : cobra system for wirelessHD                              |\r\n");
+	console_puts("| version : v0.3 - 20/01/17                                          |\r\n");
 	console_puts("| author  : sm723@qq.com                                             |\r\n");
 	console_puts("+====================================================================+\r\n");
 	CONSOLE_LOG(INFO, "%s ... OK\r\n", __func__);

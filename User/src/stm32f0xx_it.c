@@ -123,7 +123,7 @@ void USART_IRQHandler(void)
     if(USART_GetITStatus(CONSOLE_UART_COM, USART_IT_RXNE)) {
 		byte = USART_ReceiveData(CONSOLE_UART_COM);
 
-		if(byte == 13) {
+		if(byte == '\r') {
 			console_send_byte('\n');
 			console_puts(CONSOLE_TAG);
 			gl_console.cmdline[gl_console.cmdline_size] = 0;
