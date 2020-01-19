@@ -167,23 +167,23 @@ static void cobra_sys_test(void *cmd)
 	CMD_S *pcmd = (CMD_S *)cmd;
 	uint32_t delay = 0;
 
-	if(EV_STATE_NORMAL == pcmd->status && strncmp("delay", pcmd->arg, strlen("delay")) == 0) {
-		pcmd->status = EV_STATE_REQUEST;
-		sscanf(&pcmd->arg[sizeof("delay")], "%d", &delay);
+	if(EV_STATE_NORMAL == pcmd->status && 0 != strlen(pcmd->arg)) {
+		if(0 == strncmp("delay", pcmd->arg, strlen("delay"))) {
+			pcmd->status = EV_STATE_REQUEST;
+			sscanf(&pcmd->arg[sizeof("delay")], "%d", &delay);
 
-		timer_task_create(&gl_sys.cmd_test_resp_task, TMR_ONCE, delay, 0, _cobra_cmd_test_resp);
-		timer_task_create(&gl_sys.cmd_test_resp_timeout, TMR_ONCE, 2000, 0, _cobra_cmd_test_timeout);
-		return;
-	}
-	if(EV_STATE_NORMAL == pcmd->status && strncmp("sleep", pcmd->arg, strlen("sleep")) == 0) {
-		sscanf(&pcmd->arg[sizeof("sleep")], "%d", &delay);
-		delay_ms(delay);
-		SYS_LOG(INFO, "test: work=%d\r\n", gl_sys.status.flag);
-		return;
-	}
-	if(0 != strlen(pcmd->arg)) {
-		SYS_LOG(INFO, "Invalid Arguments\r\n");
-		SYS_LOG(INFO, "Usage: sys_test [delay|sleep] [ms]\r\n");
+			timer_task_create(&gl_sys.cmd_test_resp_task, TMR_ONCE, delay, 0, _cobra_cmd_test_resp);
+			timer_task_create(&gl_sys.cmd_test_resp_timeout, TMR_ONCE, 2000, 0, _cobra_cmd_test_timeout);
+		}
+		else if(0 == strncmp("sleep", pcmd->arg, strlen("sleep"))) {
+			sscanf(&pcmd->arg[sizeof("sleep")], "%d", &delay);
+			delay_ms(delay);
+			SYS_LOG(INFO, "test: work=%d\r\n", gl_sys.status.flag);
+		}
+		else {
+			SYS_LOG(INFO, "Invalid Arguments\r\n");
+			SYS_LOG(INFO, "Usage: sys_test [delay|sleep] [ms]\r\n");
+		}
 		return;
 	}
 
