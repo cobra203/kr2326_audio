@@ -68,10 +68,17 @@ typedef struct console_s
 {
 	char				cmdline[_CMDLINE_MAX_SIZE_];
 	char				cmdline_size;
+	char				tab_buffer[_PREFIX_SIZE_ + _SUBCMD_SIZE_];
+	char				tab_buffer_size;
+	int					tab_last;
 	CONSOLE_EVENT_S		event_cache[CONSOLE_EVENT_MAX];
 	TIMER_TASK_S		handle;
+	LIST_S				*cmd_list;
 
-	void	(*cmdline_touch)	(void);
+	void	(*cmdline_tab)			(void);
+	void	(*cmdline_backspace)	(void);
+	void	(*cmdline_enter)		(void);
+	void	(*cmdline_normal)		(char);
 } CONSOLE_S;
 
 extern CONSOLE_S gl_console;

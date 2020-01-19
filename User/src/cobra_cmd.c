@@ -162,6 +162,8 @@ void cmd_register(CMD_S *cmd)
 void cmd_init(void)
 {
 	INIT_LIST_HEAD(&cmd_head.list);
+	gl_console.cmd_list = &cmd_head.list;
+
 	cmd_register(&cmd_cmd_list);
 	CMD_LOG(INFO, "%s ... OK\r\n", __func__);
 }
